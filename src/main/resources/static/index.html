@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+
+<head> 
+	<title>TriStar Nucleus Server</title> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+</head> 
+<body> 
+	<div id = "output" style = "background-color:azure;"></div> 
+    <input type = "button" class="getData" value = "Get Cost Data" />
+    <div id = "output_inv" style = "background-color:beige;"></div> 
+	<input type = "button" class="getData2" value = "Get Inventory Data" />
+	<div id = "output_ops" style = "background-color:lightsteelblue;"></div> 
+	<input type = "button" class="getData3" value = "Get Operations Data" /> 
+	<!-- Get JSON data when button is clicked --> 
+	<script type = "text/javascript" language="javascript"> 
+		$(document).ready(function() { 
+			
+            
+ $(".getData").click(function(event){ 
+				$.getJSON('http://112sandbox1.nucleus.com:9091/cost', function(data) { 
+					$('#output').html('<p> Material: ' + data.part + '</p>'); 
+					$('#output').append('<p>Receiving Cost: ' + data.cost_received + '</p>'); 
+					$('#output').append('<p> Labor: ' + data.cost_labor + '</p>'); 
+					$('#output').append('<p> Finished Cost: ' + data.cost_final + '</p>'); 
+				}); 
+            
+            }); 
+            $(".getData2").click(function(event){ 
+				$.getJSON('http://112sandbox1.nucleus.com:9091/inventory', function(data) { 
+					$('#output_inv').html('<p> Material: ' + data.part + '</p>'); 
+					$('#output_inv').append('<p>Stock On Hand Plant 1: ' + data.plant1_SOH + '</p>'); 
+					$('#output_inv').append('<p> Stock On Order 1:' + data.plant1_SOO + '</p>'); 
+					$('#output_inv').append('<p>Stock On Hand Plant 2: ' + data.plant2_SOH + '</p>'); 
+					$('#output_inv').append('<p> Stock On Order 2:' + data.plant2_SOO + '</p>'); 
+				}); 
+            
+			});
+			$(".getData3").click(function(event){ 
+				$.getJSON('http://112sandbox1.nucleus.com:9092/operations', function(data) { 
+					$('#output_ops').html('<p> Material: ' + data.part + ' Control Characterstic Dim 1</p>');
+					$('#output_ops').append('<p>Plant 1 Shop Order Number: ' + data.plant1_SO + '</p>');  
+					$('#output_ops').append('<p>Plant 1 - Cp: ' + data.plant1_Cp + ' Cpk: ' + data.plant1_Cpk + '</p>'); 
+					$('#output_ops').append('<p>Plant 2 Shop Order Number: ' + data.plant1_SO + '</p>'); 
+					$('#output_ops').append('<p>Plant 2 - Cp: ' + data.plant2_Cp + ' Cpk: ' + data.plant2_Cpk + '</p>');
+				}); 
+            
+            });
+		}); 
+	</script>
+</body> 
+</html>
